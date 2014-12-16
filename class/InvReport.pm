@@ -87,7 +87,7 @@ sub stockOffset {
 	my $onOrder = $_[2];
 	my $stockOffset = 0;
 	
-	if ($weeklyAverage and $onOrder) {
+	if ($weeklyAverage) {
 		$stockOffset = ($weeklyAverage * $targetWeeks) - ($onHand + $onOrder);
 	}
 	
@@ -105,9 +105,9 @@ sub minMaxOffset {
 	my $min = $_[3];
 	my $minMaxOffset = 0;
 	
-		$stockOffset = (($onHand + $onOrder) + $stockOffset) - $min;
+		$minMaxOffset = (($onHand + $onOrder) + $stockOffset) - $min;
 	
-	return $stockOffset;
+	return $minMaxOffset;
 }
 
 
