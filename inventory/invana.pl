@@ -123,7 +123,7 @@ foreach my $storeNum (sort {$a <=> $b} @stores) {
 	$row++;
 
 	foreach my $key ( sort keys %myReport ) {
-		my $atMinMax = $rounder->round(( $myReport{$key}{ 'InStock'} + $myReport{$key}{ 'OnOrder' } ) / $myReport{$key}->{ 'WeeklyAverage' });
+		my $atMinMax = $rounder->round(( $myReport{$key}{ 'Min' }) / $myReport{$key}->{ 'WeeklyAverage' });
 		my $oh = $rounder->round(($myReport{$key}{ 'InStock' } + $myReport{$key}{ 'OnOrder' } + $myReport{$key}{ 'StockOffset' }) / $myReport{$key}{ 'WeeklyAverage' });
 		my $reportData = [
 			[ $key, $myReport{$key}->{ 'WeeklyAverage' }, $myReport{$key}->{ 'InStock' }, $myReport{$key}->{ 'OnOrder' }, $myReport{$key}->{ 'Min' }, $atMinMax, $myReport{$key}->{ 'StockOffset' }, $myReport{$key}->{ 'MinMaxOffset' }, $oh ],
