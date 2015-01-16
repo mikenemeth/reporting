@@ -9,7 +9,7 @@ use Math::Round;
 ############################
 # TESTING: Select vendors and map to hash for easy lookup
 
-my @vendors = ('WKS', 'CHE', 'KOI');
+my @vendors = ('WKS', 'CHE', 'KOI', 'WCS');
 my %vendorMap = map { $_ => 1 } @vendors;
 
 
@@ -18,7 +18,7 @@ my %vendorMap = map { $_ => 1 } @vendors;
 # $weeks is number of weeks to divided sales averages by
 # $targetWeeks is number of weeks to stock for
 
-my $weeks = 13;
+my $weeks = 11;
 my $targetWeeks = 4.5;
 
 

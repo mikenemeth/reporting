@@ -29,7 +29,7 @@ my $rounder = Math::Round::Var->new(0.01);
 
 #my $baseDirectory = 'C:\scripts\reporting\inventory\\';
 my $workbook  = Excel::Writer::XLSX->new( 'C:\scripts\reporting\inventory\output\Truck Inventory Analysis.xlsx' );
-my $weeks = 13;
+my $weeks = 11;
 my $targetWeeks = 4.5;
 
 ############################
