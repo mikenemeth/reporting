@@ -1,6 +1,6 @@
 #!perl
 
-package InvReport;
+package UesReport;
 
 use Text::CSV;
 use Text::ParseWords;
@@ -9,7 +9,7 @@ use Math::Round;
 ############################
 # TESTING: Select vendors and map to hash for easy lookup
 
-my @vendors = ('WKS', 'CHE', 'KOI', 'WCS', 'WHS', 'DKM', 'PCH');
+my @vendors = ('CHE', 'SM', 'LAN', 'RK', 'UCT');
 my %vendorMap = map { $_ => 1 } @vendors;
 
 
@@ -19,7 +19,7 @@ my %vendorMap = map { $_ => 1 } @vendors;
 # $targetWeeks is number of weeks to stock for
 
 my $weeks = 11;
-my $targetWeeks = 4.5;
+my $targetWeeks = 3;
 
 
 #############################
@@ -195,23 +195,4 @@ sub generateReport {
 	close($SALESFILE);
 	
 	return %report;
-}
-
-##########################################
-# Print to screen
-
-sub printScreen {
-	
-	my %myReport = $_[0];
-	
-	print "\n------  INVENTORY BY VENDOR  ------\n";
-	foreach my $key ( keys %myReport )  {
-		print "$key\n";
-		foreach my $value (keys $myReport{$key}) {
-			print "$value: " . $myReport{$key}->{$value} . "\n";
-		}
-		print "\n";
-	}
-
-	print "Pull single value from hashses: " . $myReport{ 'WKS' }->{ 'SoldQty' } . "\n";
 }

@@ -15,7 +15,7 @@
 use strict;
 use warnings;
 use lib 'C:\scripts\reporting\class';
-use InvReport;
+use UesReport;
 use Text::CSV;
 use Data::Dumper qw(Dumper);
 use Excel::Writer::XLSX;
@@ -28,9 +28,9 @@ my $rounder = Math::Round::Var->new(0.01);
 # Declare and initialize variables
 
 #my $baseDirectory = 'C:\scripts\reporting\inventory\\';
-my $workbook  = Excel::Writer::XLSX->new( 'C:\scripts\reporting\inventory\output\Truck Inventory Analysis.xlsx' );
+my $workbook  = Excel::Writer::XLSX->new( 'C:\scripts\reporting\inventory\output\UES Inventory Analysis.xlsx' );
 my $weeks = 11;
-my $targetWeeks = 4.5;
+my $targetWeeks = 3;
 
 ############################
 # Map directories with hash
@@ -52,7 +52,7 @@ my %inputDirectory = (
 ############################
 # Select stores and map to hash for easy lookup
 
-my @stores = (1, 3, 6, 10, 12, 13, 15, 16, 17);
+my @stores = (8);
 my %storeMap = map { $_ => 1 } @stores;
 
 ############################
@@ -97,10 +97,10 @@ my $tableFormat = $workbook->add_format(
 
 
 my %myReport;
-my $invReport = new InvReport();
+my $invReport = new UesReport();
 my $worksheet = $workbook->add_worksheet( 'Latest' );
  
-my $title = 'Truck Inventory Analysis';
+my $title = 'UES Inventory Analysis';
 my $timestamp = localtime;
 
 $worksheet->write( 0, 0, $title, $headingFormat );
@@ -112,13 +112,13 @@ my $col = 0;
 foreach my $storeNum (sort {$a <=> $b} @stores) {
 
 	print "\nGenerating report table for Store $storeNum...\n";
-	%myReport = InvReport::generateReport( $inputDirectory{ "Store $storeNum" }, 'InventoryList.csv', 'SalesSummary.csv' );
+	%myReport = UesReport::generateReport( $inputDirectory{ "Store $storeNum" }, 'InventoryList.csv', 'SalesSummary.csv' );
 	print "\n-------------------------------------------\n";
 	
 	#print Dumper \%myReport;
 	
 	my $tableHeadings = [
-		[ "Truck $storeNum", '1 Week', 'In Stock', 'On Order', 'Min-Max', 'At M/M', 'Stock+/-', 'M/M+/-', 'O/H' ],
+		[ "Store $storeNum", '1 Week', 'In Stock', 'On Order', 'Min-Max', 'At M/M', 'Stock+/-', 'M/M+/-', 'O/H' ],
 	];
 
 	$worksheet->write_col( $row, $col, $tableHeadings, $tableHeadFormat );
