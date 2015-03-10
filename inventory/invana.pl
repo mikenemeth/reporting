@@ -15,7 +15,7 @@
 use strict;
 use warnings;
 use lib 'C:\scripts\reporting\class';
-use InvReport;
+use InvReport_v2;
 use Text::CSV;
 use Data::Dumper qw(Dumper);
 use Excel::Writer::XLSX;
@@ -125,8 +125,24 @@ foreach my $storeNum (sort {$a <=> $b} @stores) {
 	$row++;
 
 	foreach my $key ( sort keys %myReport ) {
-		my $atMinMax = $rounder->round(( $myReport{$key}{ 'Min' }) / $myReport{$key}->{ 'WeeklyAverage' });
-		my $oh = $rounder->round(($myReport{$key}{ 'InStock' } + $myReport{$key}{ 'OnOrder' } + $myReport{$key}{ 'StockOffset' }) / $myReport{$key}{ 'WeeklyAverage' });
+		my $atMinMax = 0;
+		my $oh = 0;
+		if (!$myReport{$key}->{ 'WeeklyAverage' } == 0) {
+			$atMinMax = $rounder->round(( $myReport{$key}{ 'Min' }) / $myReport{$key}->{ 'WeeklyAverage' });
+		}
+		else {
+			$atMinMax = 0;
+		}
+		
+		if (!$myReport{$key}->{ 'WeeklyAverage' } == 0) {
+			$oh = $rounder->round(($myReport{$key}{ 'InStock' } + $myReport{$key}{ 'OnOrder' } + $myReport{$key}{ 'StockOffset' }) / $myReport{$key}{ 'WeeklyAverage' });
+		}
+		
+		else {
+			$oh = 0;
+		}
+		
+		
 		my $reportData = [
 			[ $key, $myReport{$key}->{ 'WeeklyAverage' }, $myReport{$key}->{ 'InStock' }, $myReport{$key}->{ 'OnOrder' }, $myReport{$key}->{ 'Min' }, $atMinMax, $myReport{$key}->{ 'StockOffset' }, $myReport{$key}->{ 'MinMaxOffset' }, $oh ],
 		];
