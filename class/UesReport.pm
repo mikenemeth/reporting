@@ -171,24 +171,26 @@ sub generateReport {
 	<$SALESFILE>;
 	while (my $line = <$SALESFILE>) {
 		chomp $line;
-		my($vendor, $soldQty) = (split "\",\"", $line)[2, 9];   # assign names to current row data in array
+		my($vendor, $soldQty, $max, $min) = (split "\",\"", $line)[2, 9, 12, 13];   # assign names to current row data in array
 		
 		if (exists $vendorMap{$vendor}) {
+			if ($min > 0  or $max > 0) { 
 		
-			my $weeklyAverage = $report{$vendor}{ 'WeeklyAverage' };
-			
-			if ($soldQty) {
-				$report{$vendor}{ 'SoldQty' } += $soldQty;
-			}		
-			else {
-					$report{$vendor}{ 'SoldQty' } += 0;
+				my $weeklyAverage = $report{$vendor}{ 'WeeklyAverage' };
+				
+				if ($soldQty) {
+					$report{$vendor}{ 'SoldQty' } += $soldQty;
+				}		
+				else {
+						$report{$vendor}{ 'SoldQty' } += 0;
+				}
+				
+				$report{$vendor}{ 'WeeklyAverage' } = round($report{$vendor}{ 'SoldQty' } / $weeks);
+				
+				$report{$vendor}{ 'StockOffset' } = stockOffset($report{$vendor}{ 'WeeklyAverage' }, $report{$vendor}{ 'InStock' }, $report{$vendor}{ 'OnOrder' });
+				
+				$report{$vendor}{ 'MinMaxOffset' } = minMaxOffset($report{$vendor}{ 'StockOffset' }, $report{$vendor}{ 'InStock' }, $report{$vendor}{ 'OnOrder' }, $report{$vendor}{ 'Min' });
 			}
-			
-			$report{$vendor}{ 'WeeklyAverage' } = round($report{$vendor}{ 'SoldQty' } / $weeks);
-			
-			$report{$vendor}{ 'StockOffset' } = stockOffset($report{$vendor}{ 'WeeklyAverage' }, $report{$vendor}{ 'InStock' }, $report{$vendor}{ 'OnOrder' });
-			
-			$report{$vendor}{ 'MinMaxOffset' } = minMaxOffset($report{$vendor}{ 'StockOffset' }, $report{$vendor}{ 'InStock' }, $report{$vendor}{ 'OnOrder' }, $report{$vendor}{ 'Min' });
 		}
 	}
 

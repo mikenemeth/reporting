@@ -5,11 +5,12 @@ package InvReport;
 use Text::CSV;
 use Text::ParseWords;
 use Math::Round;
+use Data::Dumper;
 
 ############################
 # TESTING: Select vendors and map to hash for easy lookup
 
-my @vendors = ('WKS', 'CHE', 'KOI', 'WCS', 'WHS', 'DKM', 'PCH');
+my @vendors = ('WKS', 'CHE', 'KOI', 'WCS', 'WHS', 'DKM', 'PCH', 'BCO');
 my %vendorMap = map { $_ => 1 } @vendors;
 
 
